@@ -19,7 +19,7 @@ class ApiTesterController extends Controller
 
             $content->body(view('api-tester::index',  [
                 'routes' => $tester->getRoutes(),
-                'logs'   => ApiLogger::load(),
+//                'logs'   => ApiLogger::load(),
             ]));
         });
     }
