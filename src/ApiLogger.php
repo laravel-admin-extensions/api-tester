@@ -5,8 +5,7 @@ namespace Encore\Admin\ApiTester;
 use Illuminate\Support\Facades\File;
 
 /**
- * Class ApiLogger
- * @package Encore\Admin\ApiTester
+ * Class ApiLogger.
  *
  * @deprecated
  */
@@ -33,7 +32,7 @@ class ApiLogger
 
         $data = File::get($logPath);
 
-        $json = '['.trim($data, ','). ']';
+        $json = '['.trim($data, ',').']';
 
         $history = array_reverse(json_decode($json, true));
 
@@ -54,7 +53,7 @@ class ApiLogger
 
         foreach ($parameters as $name => $value) {
             $retval[] = [
-                'name' => $name,
+                'name'         => $name,
                 'defaultValue' => $value,
             ];
         }

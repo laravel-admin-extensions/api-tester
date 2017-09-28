@@ -36,6 +36,7 @@ class ApiTester extends Extension
 
     /**
      * ApiTester constructor.
+     *
      * @param \Illuminate\Foundation\Application|null $app
      */
     public function __construct(\Illuminate\Foundation\Application $app = null)
@@ -48,6 +49,7 @@ class ApiTester extends Extension
      * @param string $uri
      * @param array  $parameters
      * @param string $userId
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function call($method, $uri, $parameters = [], $user = null)
@@ -109,6 +111,7 @@ class ApiTester extends Extension
 
     /**
      * @param Response $response
+     *
      * @return array
      */
     public function parseResponse(Response $response)
@@ -142,6 +145,7 @@ class ApiTester extends Extension
 
     /**
      * @param Response $response
+     *
      * @return string
      */
     protected function getStatusText(Response $response)
@@ -156,7 +160,8 @@ class ApiTester extends Extension
     /**
      * Filter the given array of files, removing any empty values.
      *
-     * @param  array  $files
+     * @param array $files
+     *
      * @return mixed
      */
     protected function filterFiles($files)
@@ -167,7 +172,7 @@ class ApiTester extends Extension
             }
 
             if (is_array($file)) {
-                if (! isset($file['name'])) {
+                if (!isset($file['name'])) {
                     $files[$key] = $this->filterFiles($files[$key]);
                 } elseif (isset($files[$key]['error']) && $files[$key]['error'] !== 0) {
                     unset($files[$key]);
@@ -185,7 +190,8 @@ class ApiTester extends Extension
     /**
      * Turn the given URI into a fully qualified URL.
      *
-     * @param  string  $uri
+     * @param string $uri
+     *
      * @return string
      */
     protected function prepareUrlForRequest($uri)
@@ -194,7 +200,7 @@ class ApiTester extends Extension
             $uri = substr($uri, 1);
         }
 
-        if (! Str::startsWith($uri, 'http')) {
+        if (!Str::startsWith($uri, 'http')) {
             $uri = config('app.url').'/'.$uri;
         }
 
@@ -213,9 +219,7 @@ class ApiTester extends Extension
         $prefix = static::config('prefix');
 
         $routes = collect($routes)->filter(function ($route) use ($prefix) {
-
             return Str::startsWith($route->uri, static::config('prefix'));
-
         })->map(function ($route) {
             return $this->getRouteInformation($route);
         })->all();
@@ -239,6 +243,7 @@ class ApiTester extends Extension
      * Get parameters info of route.
      *
      * @param $action
+     *
      * @return array
      */
     protected function getRouteParameters($action)
@@ -247,12 +252,12 @@ class ApiTester extends Extension
             return [];
         }
 
-        if (is_string($action) && ! Str::contains($action, '@')) {
+        if (is_string($action) && !Str::contains($action, '@')) {
             list($class, $method) = static::makeInvokable($action);
         } else {
             list($class, $method) = explode('@', $action);
         }
-        
+
         $classReflector = new \ReflectionClass($class);
 
         $comment = $classReflector->getMethod($method)->getDocComment();
@@ -263,7 +268,6 @@ class ApiTester extends Extension
             foreach (array_get($matches, 1, []) as $item) {
                 preg_match_all('/(\w+)=[\'"]?([^\r\n"]+)[\'"]?,?\n/s', $item, $match);
                 if (count($match) == 3) {
-
                     $match[2] = array_map(function ($val) {
                         return trim($val, ',');
                     }, $match[2]);
@@ -280,11 +284,12 @@ class ApiTester extends Extension
 
     /**
      * @param $action
+     *
      * @return array
      */
     protected static function makeInvokable($action)
     {
-        if (! method_exists($action, '__invoke')) {
+        if (!method_exists($action, '__invoke')) {
             throw new \UnexpectedValueException("Invalid route action: [{$action}].");
         }
 
@@ -294,7 +299,8 @@ class ApiTester extends Extension
     /**
      * Get the route information for a given route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param \Illuminate\Routing\Route $route
+     *
      * @return array
      */
     protected function getRouteInformation(Route $route)
@@ -312,8 +318,9 @@ class ApiTester extends Extension
     /**
      * Sort the routes by a given element.
      *
-     * @param  string  $sort
-     * @param  array  $routes
+     * @param string $sort
+     * @param array  $routes
+     *
      * @return array
      */
     protected function sortRoutes($sort, $routes)
@@ -326,7 +333,8 @@ class ApiTester extends Extension
     /**
      * Get before filters.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param \Illuminate\Routing\Route $route
+     *
      * @return string
      */
     protected function getRouteMiddleware($route)
