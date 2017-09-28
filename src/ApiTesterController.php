@@ -12,12 +12,11 @@ class ApiTesterController extends Controller
     public function index()
     {
         return Admin::content(function (Content $content) {
-
             $content->header('Api tester');
 
             $tester = new ApiTester();
 
-            $content->body(view('api-tester::index',  [
+            $content->body(view('api-tester::index', [
                 'routes' => $tester->getRoutes(),
 //                'logs'   => ApiLogger::load(),
             ]));
@@ -27,14 +26,15 @@ class ApiTesterController extends Controller
     public function handle(Request $request)
     {
         $method = $request->get('method');
-        $uri    = $request->get('uri');
-        $user   = $request->get('user');
+        $uri = $request->get('uri');
+        $user = $request->get('user');
         $all = $request->all();
 
-        $keys   = array_get($all, 'key', []);
-        $vals   = array_get($all, 'val', []);
+        $keys = array_get($all, 'key', []);
+        $vals = array_get($all, 'val', []);
 
-        ksort($keys);ksort($vals);
+        ksort($keys);
+        ksort($vals);
 
         $parameters = [];
 
@@ -53,7 +53,7 @@ class ApiTesterController extends Controller
         return [
             'status'    => true,
             'message'   => 'success',
-            'data'      => $tester->parseResponse($response)
+            'data'      => $tester->parseResponse($response),
         ];
     }
 }
