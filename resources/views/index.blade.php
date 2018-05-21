@@ -195,9 +195,10 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
 
-                <form action="#" method="post">
+                <form action="#" method="get">
                     <div class="input-group">
                         <input type="text" name="message" placeholder="Type Url ..." class="form-control filter-routes">
+                        <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-primary btn-flat"><i class="fa fa-search"></i></button>
                         </span>
