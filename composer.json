@@ -1,5 +1,5 @@
 {
-    "name": "laravel-admin-ext/api-tester",
+    "name": "nastuzzi-samy/api-tester",
     "description": "Api tester for laravel",
     "type": "library",
     "keywords": ["laravel-admin", "api", "tester"],
@@ -9,6 +9,10 @@
         {
             "name": "z-song",
             "email": "zosong@126.com"
+        },
+        {
+            "name": "NastuzziSamy",
+            "email": "samy@nastuzzi.fr"
         }
     ],
     "require": {

@@ -75,7 +75,7 @@ class ApiTester extends Extension
 
         $symfonyRequest = SymfonyRequest::create(
             $uri, $method, $parameters,
-            [], $files, ['HTTP_ACCEPT' => 'application/json']
+            [], $files, $this->getHeaders()
         );
 
         $request = Request::createFromBase($symfonyRequest);
@@ -91,6 +91,12 @@ class ApiTester extends Extension
         return $response;
     }
 
+    protected function getHeaders() {
+         return [
+             'HTTP_ACCEPT' => 'application/json'
+         ];
+    }
+
     /**
      * Login a user by giving userid.
      *
@@ -99,14 +105,21 @@ class ApiTester extends Extension
     protected function loginUsing($userId)
     {
         $guard = static::config('guard', 'api');
-
-        if ($method = static::config('user_retriever')) {
-            $user = call_user_func($method, $userId);
-        } else {
-            $user = app('auth')->guard($guard)->getProvider()->retrieveById($userId);
-        }
+        $user = $this->getUser($guard, $userId);
 
         $this->app['auth']->guard($guard)->setUser($user);
+
+        return $user;
+    }
+
+    /**
+     * Get a user by giving userid.
+     *
+     * @param $userId
+     */
+    protected function getUser($guard, $userId)
+    {
+        return app('auth')->guard($guard)->getProvider()->retrieveById($userId);
     }
 
     /**

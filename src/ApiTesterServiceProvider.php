@@ -17,6 +17,6 @@ class ApiTesterServiceProvider extends ServiceProvider
             );
         }
 
-        ApiTester::boot();
+        config('admin.extensions.api-tester.class', ApiTest::class)::boot();
     }
 }
