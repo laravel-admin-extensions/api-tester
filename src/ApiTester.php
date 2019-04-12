@@ -121,7 +121,7 @@ class ApiTester extends Extension
         $jsoned = json_decode($content);
 
         if (json_last_error() == JSON_ERROR_NONE) {
-            $content = json_encode($jsoned, JSON_PRETTY_PRINT);
+            $content = json_encode($jsoned, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }
 
         $lang = 'json';
@@ -132,8 +132,8 @@ class ApiTester extends Extension
         }
 
         return [
-            'headers'    => json_encode($response->headers->all(), JSON_PRETTY_PRINT),
-            'cookies'    => json_encode($response->headers->getCookies(), JSON_PRETTY_PRINT),
+            'headers'    => json_encode($response->headers->all(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+            'cookies'    => json_encode($response->headers->getCookies(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
             'content'    => $content,
             'language'   => $lang,
             'status'     => [
