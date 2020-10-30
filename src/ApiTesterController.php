@@ -46,7 +46,8 @@ class ApiTesterController extends Controller
             return $key !== '';
         }, ARRAY_FILTER_USE_KEY);
 
-        $tester = new ApiTester();
+        $class = config('admin.extensions.api-tester.class', ApiTest::class);
+        $tester = new $class();
 
         $response = $tester->call($method, $uri, $parameters, $user);
 

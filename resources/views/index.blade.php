@@ -135,6 +135,9 @@
                         }
                     }
                 },
+                error: function (data) {
+                    toastr.error(data.responseJSON.message);
+                },
                 cache: false,
                 contentType: false,
                 processData: false
