@@ -6,6 +6,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Arr;
 
 class ApiTesterController extends Controller
 {
@@ -17,8 +18,8 @@ class ApiTesterController extends Controller
             $tester = new ApiTester();
 
             $content->body(view('api-tester::index', [
-                'routes' => $tester->getRoutes(),
-//                'logs'   => ApiLogger::load(),
+                'routes'    => $tester->getRoutes(),
+                // 'logs'    => ApiLogger::load(),
             ]));
         });
     }
@@ -30,8 +31,8 @@ class ApiTesterController extends Controller
         $user = $request->get('user');
         $all = $request->all();
 
-        $keys = array_get($all, 'key', []);
-        $vals = array_get($all, 'val', []);
+        $keys = Arr::get($all, 'key', []);
+        $vals = Arr::get($all, 'val', []);
 
         ksort($keys);
         ksort($vals);
@@ -39,7 +40,7 @@ class ApiTesterController extends Controller
         $parameters = [];
 
         foreach ($keys as $index => $key) {
-            $parameters[$key] = array_get($vals, $index);
+            $parameters[$key] = Arr::get($vals, $index);
         }
 
         $parameters = array_filter($parameters, function ($key) {
